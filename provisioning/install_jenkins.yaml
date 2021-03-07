@@ -1,0 +1,36 @@
+---
+
+- name: Install Jenkins
+  hosts: jenkins
+  become: yes
+
+  tasks:
+
+  - name: Install dependencies
+    apt: 
+      pkg: ['openjdk-11-jdk', 'python-apt', 'git', 'ant']
+      state: present
+      update_cache: yes
+
+  - name: Add the Jenkins public GPG key
+    apt_key: 
+      url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+      state: present
+
+  - name: Add Jenkins apt repo to the trusted sources list
+    apt_repository: 
+      repo: deb https://pkg.jenkins.io/debian binary/
+      update_cache: yes
+   
+  - name: Install Jenkins Server
+    apt: 
+      name: jenkins
+      state: present
+  
+  - name: Debug
+    command: ls -l /var/lib/jenkins/secrets/initialAdminPassword
+    register: output
+
+  - name: Print Debug
+    debug: 
+      msg: "{{ output.stdout }}" 

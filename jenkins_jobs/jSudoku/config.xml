@@ -1,0 +1,109 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>Git jSudoku sources from GitHub, run CheckStyle and PMD tests and build executable jar file.</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.33.1">
+      <projectUrl>https://github.com/VladislavKutas/jSudoku/</projectUrl>
+      <displayName></displayName>
+    </com.coravy.hudson.plugins.github.GithubProjectProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>checkstyleRulesPath</name>
+          <description>Path to Rules Set for checkstyle</description>
+          <defaultValue>/var/lib/jenkins/libs/checkstyle/rules/google_checks.xml</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>checkstyleClassPath</name>
+          <description>Path to checkstyle jar</description>
+          <defaultValue>/var/lib/jenkins/libs/checkstyle/checkstyle-8.41-all.jar</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>pmdRulesPath</name>
+          <description>Path to PMD Rules set</description>
+          <defaultValue>rulesets/java/quickstart.xml</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>pmdclassPath</name>
+          <description>Path to PMD lib jars</description>
+          <defaultValue>/var/lib/jenkins/libs/pmd/pmd-bin-6.32.0</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@4.6.0">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <url>git@github.com:VladislavKutas/jSudoku.git</url>
+        <credentialsId>0e3c3056-e837-4586-b5c3-51301390e646</credentialsId>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <hudson.plugins.git.BranchSpec>
+        <name>*/main</name>
+      </hudson.plugins.git.BranchSpec>
+    </branches>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <submoduleCfg class="empty-list"/>
+    <extensions/>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Ant plugin="ant@1.11">
+      <targets>jar</targets>
+      <buildFile>build.xml</buildFile>
+    </hudson.tasks.Ant>
+  </builders>
+  <publishers>
+    <io.jenkins.plugins.analysis.core.steps.IssuesRecorder plugin="warnings-ng@8.10.0">
+      <analysisTools>
+        <io.jenkins.plugins.analysis.warnings.checkstyle.CheckStyle>
+          <id></id>
+          <name>jSudoku CheckStyle Report</name>
+          <pattern>build/reports/checkstyle_report-*.xml</pattern>
+          <reportEncoding>UTF-8</reportEncoding>
+          <skipSymbolicLinks>false</skipSymbolicLinks>
+        </io.jenkins.plugins.analysis.warnings.checkstyle.CheckStyle>
+        <io.jenkins.plugins.analysis.warnings.Pmd>
+          <id></id>
+          <name>jSudoku PDM Report</name>
+          <pattern>build/reports/pmd_report-*.xml</pattern>
+          <reportEncoding>UTF-8</reportEncoding>
+          <skipSymbolicLinks>false</skipSymbolicLinks>
+        </io.jenkins.plugins.analysis.warnings.Pmd>
+      </analysisTools>
+      <sourceCodeEncoding></sourceCodeEncoding>
+      <sourceDirectory></sourceDirectory>
+      <ignoreQualityGate>false</ignoreQualityGate>
+      <ignoreFailedBuilds>true</ignoreFailedBuilds>
+      <failOnError>false</failOnError>
+      <healthy>0</healthy>
+      <unhealthy>0</unhealthy>
+      <minimumSeverity plugin="analysis-model-api@9.8.1">
+        <name>LOW</name>
+      </minimumSeverity>
+      <filters/>
+      <isEnabledForFailure>false</isEnabledForFailure>
+      <isAggregatingResults>false</isAggregatingResults>
+      <isBlameDisabled>false</isBlameDisabled>
+      <skipPublishingChecks>false</skipPublishingChecks>
+      <publishAllIssues>false</publishAllIssues>
+      <qualityGates/>
+      <trendChartType>AGGREGATION_TOOLS</trendChartType>
+      <scm></scm>
+    </io.jenkins.plugins.analysis.core.steps.IssuesRecorder>
+  </publishers>
+  <buildWrappers/>
+</project>
