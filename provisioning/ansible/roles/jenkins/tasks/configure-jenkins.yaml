@@ -1,0 +1,52 @@
+---
+- name: Check if Jenkins Init File exists.
+  ansible.builtin.stat: 
+   path: /etc/default/jenkins
+  register: jenkins_init_file_stat
+
+- name: Create Jenkins Init File if not exists
+  ansible.builtin.file:
+    path: /etc/default/jenkins
+    state: touch
+    mode: 0644
+  when: not jenkins_init_file_stat.stat.exists  
+  
+- name: Set the Jenkins home directory.
+  ansible.builtin.lineinfile:
+    dest: /etc/default/jenkins
+    regexp: '^JENKINS_HOME=.*'
+    line: 'JENKINS_HOME={{ jenkins_home }}'
+
+- name: Ensure Jenkins home directory exists.
+  ansible.builtin.file:
+    path: "{{ jenkins_home }}"
+    state: directory
+    owner: jenkins
+    group: jenkins
+    mode: u+rwx
+
+- name: Create init scripts directory.
+  ansible.builtin.file:
+    path: "{{ jenkins_home }}/init.groovy.d"
+    state: directory
+    owner: jenkins
+    group: jenkins
+    mode: 0775
+
+- name: Configure default admin user
+  ansible.builtin.template: 
+    src: set-admin.groovy.j2
+    dest: "{{ jenkins_home }}/init.groovy.d/set-admin.groovy"
+    owner: jenkins
+    group: jenkins
+    mode: 0700
+
+- name: Jenkins disable startup wizard
+  ansible.builtin.lineinfile:
+    dest: /etc/default/jenkins
+    regexp: '^JAVA_ARGS=.*'
+    line: 'JAVA_ARGS="-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false"'  
+  notify: 
+    - Restart Jenkins Service
+      
+...

@@ -1,0 +1,24 @@
+---
+- name: Install dependencies
+  ansible.builtin.apt: 
+    pkg: "{{ jenkins_dependencies }}"
+    state: present
+    update_cache: yes
+    
+- name: Add the Jenkins public GPG key
+  ansible.builtin.apt_key: 
+    url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+    state: present
+
+- name: Add Jenkins apt repo to the trusted sources list
+  ansible.builtin.apt_repository: 
+    repo: deb https://pkg.jenkins.io/debian binary/
+    state: present
+    update_cache: yes
+   
+- name: Install Jenkins
+  ansible.builtin.apt: 
+    name: jenkins
+    state: present
+
+...

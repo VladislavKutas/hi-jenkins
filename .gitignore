@@ -1,6 +1,5 @@
-provisioning/test.*
 .directory
 .vagrant
-provisioning/dependencies/*
+*.pass
 
 

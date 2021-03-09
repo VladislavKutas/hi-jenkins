@@ -1,0 +1,17 @@
+---
+- name: Set up GitGub SSH Credentials values
+  include_vars: github_creds.yaml
+
+- name: Add GitGub ssh private key to the Jenkins Credentials Storage
+  ansible.builtin.template:
+    src: add-github-creds.groovy.j2
+    dest: "{{ jenkins_home }}/init.groovy.d/add-github-creds.groovy"
+    owner: jenkins
+    group: jenkins
+    mode: 0774
+  notify: Restart Jenkins Service
+
+- name: Restart Jenkins
+  ansible.builtin.meta: flush_handlers    
+
+...

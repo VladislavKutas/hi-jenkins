@@ -1,0 +1,16 @@
+---
+- name: Find all .groovy files in Jenkins init.groovy.d directory
+  ansible.builtin.find:
+    paths: "{{ jenkins_home }}/init.groovy.d"
+    patterns: '*.groovy'
+  register: groovy_scripts 
+
+- name: Clean up Jenkins init.groovy.d directory
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items: "{{ groovy_scripts.files }}"
+  when: jenkins_service['status'] == 200
+
+
+  

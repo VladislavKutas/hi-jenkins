@@ -1,0 +1,16 @@
+---
+
+- name: Wait for Jenkins is starting up
+  uri:
+    url: http://localhost:8080
+    status_code: 200
+    user: "{{ jenkins_admin_username }}"
+    password: "{{ jenkins_admin_password }}"
+    timeout: 5
+    force_basic_auth: yes
+  register: jenkins_service
+  retries: 60
+  delay: 5
+  until: "'status' in jenkins_service and jenkins_service['status'] == 200"
+  
+...

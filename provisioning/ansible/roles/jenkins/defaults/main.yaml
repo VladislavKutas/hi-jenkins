@@ -1,0 +1,28 @@
+# Role variables default values
+
+#Jenkins $HOME
+jenkins_home: /var/lib/jenkins
+
+# Jenkins admin user credentials 
+jenkins_admin_username: admin 
+jenkins_admin_password: admin
+
+# Pass to libraries on managing node to copy to the Jenkins $HOME
+libraries_path: "libraries/"
+
+# Path to jobs folders on managing node
+jobs:
+  - "files/jenkins_jobs/jSudoku"
+
+jenkins_dependencies: 
+  - openjdk-11-jdk
+  - python-apt
+  - git
+  - ant
+
+jenkins_plugins: 
+  - ant
+  - credentials-binding
+  - git
+  - github
+  - warnings-ng  

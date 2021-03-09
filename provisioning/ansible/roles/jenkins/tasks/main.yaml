@@ -1,0 +1,18 @@
+
+- import_tasks: install_jenkins.yaml
+
+- import_tasks: configure-jenkins.yaml
+
+- import_tasks: copy_libraries.yaml
+
+- import_tasks: copy_jenkins_jobs.yaml
+
+- import_tasks: wait_until_jenkins_restarted.yaml
+
+- import_tasks: install_jenkins_plugins.yaml
+
+- import_tasks: add_github_creds.yaml
+
+- import_tasks: wait_until_jenkins_restarted.yaml
+
+- include_tasks: clean_init_dir.yaml

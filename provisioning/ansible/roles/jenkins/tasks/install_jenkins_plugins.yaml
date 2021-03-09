@@ -1,0 +1,28 @@
+---
+
+- name: Install Jenkins plugins
+  community.general.jenkins_plugin:
+    name: "{{ item }}"
+    jenkins_home: "{{ jenkins_home }}"
+    url_username: "{{ jenkins_admin_username }}"
+    url_password: "{{ jenkins_admin_password }}"
+    state: present
+    timeout: 30
+    updates_expiration: 86400
+    updates_url: "https://updates.jenkins.io"
+    url: http://localhost:8080
+    with_dependencies: yes
+    owner: jenkins
+    group: jenkins
+  with_items: "{{ jenkins_plugins }}"  
+  when: jenkins_service['status'] == 200
+  register: plugin_installation_result
+  delay: 2
+  retries: 10
+  until: plugin_installation_result is success
+  notify:  Restart Jenkins Service
+
+- name: Restart Jenkins
+  ansible.builtin.meta: flush_handlers   
+ 
+...  

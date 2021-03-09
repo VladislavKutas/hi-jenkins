@@ -1,0 +1,16 @@
+---
+- name: Create dependencies directory
+  ansible.builtin.file:
+    path: "{{ jenkins_home }}/libs"
+    state: directory
+    owner: jenkins
+    group: jenkins
+    mode: 0770
+
+- name: Copy files reqired to source code analysis tools 
+  ansible.builtin.copy: 
+    src: "{{ libraries_path }}"
+    dest: "{{ jenkins_home }}/libs/"
+    owner: jenkins
+    group: jenkins
+    mode: 0770

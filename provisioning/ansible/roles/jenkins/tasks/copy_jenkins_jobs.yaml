@@ -1,0 +1,26 @@
+---
+
+- name: Create jobs directories
+  ansible.builtin.file:
+    path: "{{ jenkins_home }}/jobs/{{ item | basename }}"
+    state: directory
+    owner: jenkins
+    group: jenkins
+    mode: 0770
+  with_items: "{{ jobs }}"
+ 
+- name: Copy Jenkins jobs
+  ansible.builtin.template:
+    src: "{{ item }}/config.xml.j2"
+    dest: "{{ jenkins_home }}/jobs/{{ item | basename }}/config.xml"
+    owner: jenkins
+    group: jenkins
+    mode: 0770
+  with_items: "{{ jobs }}"
+  notify: 
+    - Restart Jenkins Service
+
+- name: Restart Jenkins
+  ansible.builtin.meta: flush_handlers   
+  
+...

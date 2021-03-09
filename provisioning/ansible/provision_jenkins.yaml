@@ -1,0 +1,8 @@
+---
+- name:  
+  hosts: jenkins
+  become: yes
+  roles:
+    - jenkins
+
+...    
