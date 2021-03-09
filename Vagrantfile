@@ -30,8 +30,5 @@ Vagrant.configure("2") do |config|
   end
 
   end
-  
-  # config.ssh.insert_key = false
-
 
 end
