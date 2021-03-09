@@ -20,7 +20,7 @@ sshKey = new BasicSSHUserPrivateKey(
     "{{ credential['id'] }}",
     "{{ credential['username'] }}",
     new BasicSSHUserPrivateKey.DirectEntryPrivateKeySource('''{{ credential['private_key'] }}'''),
-    '',
+    "{{ credential['passphrase'] }}",
     "{{ credential['description'] }}"
 )
 
