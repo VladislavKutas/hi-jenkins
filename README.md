@@ -5,7 +5,7 @@ The task comprises following parts:
 
 1. Set up a virtual Linux-based environment with Vagrant.
 2. Provision Jenkins CI server, its dependencies and other reqired files to the environment using Ansible
-3. Set up Jenkins jobs which fetch application sources ( [jSudoku](https://sourceforge.net/projects/jsudoku/) in this case ) from GitHub and build it by schedule using Ant as build tool. Job should include code testing stage with [CheckStyle](https://checkstyle.sourceforge.io/) and [PMD](https://pmd.github.io/).
+3. Set up Jenkins jobs which fetch application sources ( [jSudoku](https://sourceforge.net/projects/jsudoku/) in this case ) from [GitHub repository](https://github.com/VladislavKutas/jSudoku) and build it by schedule using Ant as build tool. Job should include code testing stage with [CheckStyle](https://checkstyle.sourceforge.io/) and [PMD](https://pmd.github.io/).
 
 
 ### Project structure ###
