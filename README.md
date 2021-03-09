@@ -10,7 +10,7 @@ The task comprises following parts:
 
 ### Project structure ###
 
- ![Project Structure](https://drive.google.com/file/d/105JdoPwDKhwSD-IFS3cgnSw-UhCWPP8L/view?usp=sharing)
+ ![Project Structure](project_structure.png)
 
 
 1. VagrantFile is used to discribe VM configuration.  
@@ -30,7 +30,7 @@ The Ansible 'Jenkins' role  comprises the task, handkers and variables which use
 The **main.yaml** file in **'defaults'** (8) directory set up role's variables which can be overridden in the playbook. The varibles are: 
 
 `jenkins_home:/var/lib/jenkins`  
-The Jenkins home directory whichю This variable allows you to override the default Jenkins home location - `/var/lib/jenkins`.
+The Jenkins home directory. This variable allows you to override the default Jenkins home location - `/var/lib/jenkins`.
 
 `jenkins_admin_username: admin`  
 `jenkins_admin_password: admin`  
@@ -72,4 +72,4 @@ This file in the repository is intentionally changed, and it is here only for de
 Just after Ansible 'jenkins' role successfully completed its work, Jenkins will be avalible on `http://192.168.1.101:8080` from the host and you can log in with credentials you set in the playbook. 
 
 ### Known Issues ###
-Sometimes during [Jenkins Plugin installation](provision//ansible/roles/jenkins/tasks/install_jenkins_plugins.yaml) for some reason plugins don't install but despite this ansible returns `state: present` for each plugin. Running Playbook again can help most of the time. This issue requires more research to figure out the reason.
+Sometimes during [Jenkins Plugin installation](provision//ansible/roles/jenkins/tasks/install_jenkins_plugins.yaml) for some reason plugins are not installed but despite this ansible returns `state: present` for each plugin. Running Playbook again can help most of the time. This issue requires more research to figure out the reason.
