@@ -24,9 +24,9 @@ Vagrant.configure("2") do |config|
    # Run Ansible provisioner to install and configure Jenkins and provide dependencies
     config.vm.provision "install_jenkins", type:'ansible' do |ansible|
       ansible.verbose = "vv"
-      ansible.vault_password_file = "provisioning/github_keys.pass"
-      ansible.inventory_path = 'provisioning/ansible/hosts.yaml'
-      ansible.playbook = "provisioning/ansible/provision_jenkins.yaml"  
+      ansible.vault_password_file = "provision/github_keys.pass"
+      ansible.inventory_path = 'provision/ansible/hosts.yaml'
+      ansible.playbook = "provision/ansible/provision_jenkins.yaml"  
   end
 
   end
